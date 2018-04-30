@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: WF Events
+Plugin Name: WF Plugins
 Plugin URI: http://www.ict.co.tt
 Description: An events plugin with my spin
 Author: Wynton Franklin
@@ -14,6 +14,8 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 require_once __DIR__ . '/cmb2/init.php';
+
+require_once __DIR__ . '/helpers/WfHtml.php';
 
 define('WF_EVENTS_PREFIX','_wf_events_');
 
@@ -327,3 +329,35 @@ function wf_events_listing($atts = [], $content = null, $tag = ''){
 	}
 	return $o;
 }
+
+
+function wf_events_dashboard_widget( $post, $params ){
+	$query_params = array(
+		'post_type' => 'wf_events',
+		'post_status' => 'publish',
+		'post_per_page' => 1
+	);
+	$all_events = new WP_Query();
+	$all_events->query($query_params);
+	WfHtml::render('list-style',[
+		'posts' => $all_events->posts
+	]);
+}
+
+function wf_events_add_dashboard_widgets(){
+	wp_add_dashboard_widget('wf_events_db_widget','Recent Events','wf_events_dashboard_widget');
+}
+
+add_action('wp_dashboard_setup','wf_events_add_dashboard_widgets');
+
+add_action( 'admin_menu', 'wf_events_settings_menu');
+
+function wf_events_settings_menu(){
+	add_options_page('Events Options','Events','manage_options','events','wf_events_config_page');
+}
+
+function wf_events_config_page(){
+	WfHtml::render('wf-settings');
+}
+
+
