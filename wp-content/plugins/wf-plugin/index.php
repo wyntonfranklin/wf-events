@@ -19,6 +19,17 @@ require_once __DIR__ . '/helpers/WfHtml.php';
 
 define('WF_EVENTS_PREFIX','_wf_events_');
 
+
+register_activation_hook(__FILE__,'wf_events_set_default_options');
+
+function wf_events_set_default_options(){
+	if( get_option('wf_events_options') === false ){
+		$new_options['event_name'] = 'Wynton Events';
+		$new_options['event_location'] = 'Trinidad';
+		add_option('wf_events_options', $new_options);
+	}
+}
+
 add_action( 'init', 'wf_events_create_event_post_type' );
 
 function wf_events_create_event_post_type(){
@@ -357,7 +368,30 @@ function wf_events_settings_menu(){
 }
 
 function wf_events_config_page(){
-	WfHtml::render('wf-settings');
+	$options = get_option('wf_events_options');
+	WfHtml::render('wf-settings',['options'=>$options]);
 }
 
+add_action( 'admin_init', 'wf_events_admin_init');
+
+function wf_events_admin_init(){
+	add_action('admin_post_save_wf_events_options','process_wf_events_options');
+}
+
+function process_wf_events_options(){
+	if( !current_user_can('manage_options'))
+		wp_die('Not Allowed');
+
+	$options = get_option('wf_events_options');
+
+	foreach( array('event_name') as $option_name){
+		if(isset($_POST[$option_name])){
+			$options[$option_name] = sanitize_text_field($_POST[$option_name]);
+		}
+	}
+
+	update_option('wf_events_options',$options);
+	WfHtml::adminPageRedirect('page','events','options-general.php');
+	exit;
+}
 
