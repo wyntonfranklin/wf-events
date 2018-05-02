@@ -395,3 +395,34 @@ function process_wf_events_options(){
 	exit;
 }
 
+add_action('admin_menu','wf_events_admin_menu');
+
+function wf_events_admin_menu(){
+	add_menu_page('WF Events Plugin Configuration Page','My Events Plugin',
+		'manage_options','wf-events-main-menu','wf_events_config_menu',
+		'dashicons-calendar-alt');
+
+	add_submenu_page('wf-events-main-menu','WF Events Sub','Events Config',
+		'manage_options','wf-events-sub-menu','wf_events_config_sub_menu');
+
+	add_submenu_page('wf-events-main-menu','Second Sub','Settings',
+		'manage_options','wf-events-sub-settings','wf_events_config_sub_settings');
+}
+
+function wf_events_config_menu(){
+	WfHtml::renderLayout('events-menu-page');
+}
+
+function wf_events_config_sub_menu(){
+
+}
+
+function wf_events_config_sub_settings(){
+
+}
+
+add_shortcode('register-for-event','wf_events_registration');
+
+function wf_events_registration(){
+	echo WfHtml::renderLayout('events-registration',array(),false);
+}

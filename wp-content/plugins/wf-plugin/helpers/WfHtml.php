@@ -37,6 +37,11 @@ class WfHtml {
 		return self::renderFile($filePath, $variables, $print);
 	}
 
+	static function renderLayout($file_name, $variables = array(), $print = true) {
+		$filePath = plugin_dir_path(__DIR__) . 'layouts/'. $file_name .'.php';
+		return self::renderFile($filePath, $variables, $print);
+	}
+
 	static function renderView($file_name, $variables = array(), $print = true){
 		$filePath = plugin_dir_path(__DIR__) . 'view/'. $file_name .'.php';
 		return self::renderFile($filePath, $variables, $print);
@@ -83,6 +88,14 @@ class WfHtml {
 	static function endFromTable(){
 		echo '</tbody>
 			</table>';
+	}
+
+	static function formMessage(){
+
+	}
+
+	static function loggedIn(){
+		return is_user_logged_in();
 	}
 
 }
