@@ -71,8 +71,8 @@ class WfHtml {
 		}
 	}
 
-	static function beginForm(){
-		echo '<form method="post" action="admin-post.php">
+	static function beginForm( $method="post", $action="admin-post.php", $id=''){
+		echo '<form method="'.$method.'" action="'.$action.'" id="'.$id.'">
 			<input type="hidden" name="action" value="save_wf_events_options">';
 	}
 
@@ -90,12 +90,27 @@ class WfHtml {
 			</table>';
 	}
 
-	static function formMessage(){
-
+	static function formMessage( $message='Done'){
+		return '<div id="message" class="updated fade">
+			<p><strong>'.$message.'</strong></p>
+		</div>';
 	}
 
 	static function loggedIn(){
 		return is_user_logged_in();
 	}
+
+	static function redirectAddress(){
+		return (empty($_POST['_wf_http_referer']) ? site_url() : $_POST['_wp_http_referer']);
+	}
+
+	static function frontMessage(){
+		return '<div style="margin:8px; border: 1px solid #ddd; background-color:#ff0"> Tank you for yours </div>';
+	}
+
+	static function getPageUrl( $page ){
+		return menu_page_url($page,false);
+	}
+
 
 }

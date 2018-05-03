@@ -410,10 +410,15 @@ function wf_events_admin_menu(){
 }
 
 function wf_events_config_menu(){
-	WfHtml::renderLayout('events-menu-page');
+	global $wpdb;
+	$sql = 'SELECT * from wf_countries';
+	$countries = $wpdb->get_results($sql,ARRAY_A);
+	WfHtml::renderLayout('events-menu-page',['countries'=>$countries]);
 }
 
 function wf_events_config_sub_menu(){
+	$id = $_GET['id'];
+	echo $id;
 
 }
 
@@ -424,5 +429,22 @@ function wf_events_config_sub_settings(){
 add_shortcode('register-for-event','wf_events_registration');
 
 function wf_events_registration(){
+	wf_events_registration_data();
 	echo WfHtml::renderLayout('events-registration',array(),false);
+}
+
+function wf_events_registration_data(){
+	if(isset($_POST['event_name'])){
+		$new_event_data = array(
+			'post_status' => 'publish',
+			'post_title' => $_POST['event_name'],
+			'post_type' => 'wf_events',
+			'post_content' => $_POST['description']
+		);
+		$new_event_id = wp_insert_post($new_event_data);
+		add_post_meta($new_event_id,'_wf_events_start_date',$_POST['start_date']);
+		//wp_redirect(add_query_arg('message','1', WfHtml::redirectAddress()));
+		//exit;
+		echo WfHtml::frontMessage();
+	}
 }
