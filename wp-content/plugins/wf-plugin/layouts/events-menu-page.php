@@ -13,8 +13,12 @@
             <tr>
                 <td><?php echo $country['country_id']?></td>
                 <td><?php echo $country['country_name']?></td>
-                <td><a href="<?php echo add_query_arg(array('page'=>'wf-events-sub-menu','id'=>$country['country_id']),
-                        admin_url('admin.php'));?>">Edit</a></td>
+                <td>
+                    <a href="<?php echo add_query_arg(array('page'=>'wf-events-sub-menu','id'=>$country['country_id']),
+                        admin_url('admin.php'));?>">Edit</a> |
+                    <a href="<?php echo add_query_arg(array('page'=>'wf-events-sub-settings','id'=>$country['country_id']),
+		                admin_url('admin.php'));?>">View</a>
+                </td>
             </tr>
         <?php endforeach;?>
     </table>

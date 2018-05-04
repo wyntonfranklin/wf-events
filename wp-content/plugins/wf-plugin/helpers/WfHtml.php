@@ -112,5 +112,10 @@ class WfHtml {
 		return menu_page_url($page,false);
 	}
 
+	static function adminUrl( $page, $params=array()){
+		$queryParams = array_merge($params, array('page'=>$page));
+		return add_query_arg($queryParams,
+			admin_url('admin.php'));
+	}
 
 }

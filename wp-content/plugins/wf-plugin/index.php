@@ -402,10 +402,10 @@ function wf_events_admin_menu(){
 		'manage_options','wf-events-main-menu','wf_events_config_menu',
 		'dashicons-calendar-alt');
 
-	add_submenu_page('wf-events-main-menu','WF Events Sub','Events Config',
+	add_submenu_page('','WF Events Sub','Events Config',
 		'manage_options','wf-events-sub-menu','wf_events_config_sub_menu');
 
-	add_submenu_page('wf-events-main-menu','Second Sub','Settings',
+	add_submenu_page('','Second Sub','Settings',
 		'manage_options','wf-events-sub-settings','wf_events_config_sub_settings');
 }
 
@@ -418,8 +418,11 @@ function wf_events_config_menu(){
 
 function wf_events_config_sub_menu(){
 	$id = $_GET['id'];
-	echo $id;
-
+	global $wpdb;
+	$sql = 'SELECT * from wf_countries where country_id='.$id;
+	$country = $wpdb->get_row($sql,ARRAY_A);
+	WfHtml::renderLayout('edit-event',['country'=>$country]);
+	//echo $id;
 }
 
 function wf_events_config_sub_settings(){
@@ -448,3 +451,34 @@ function wf_events_registration_data(){
 		echo WfHtml::frontMessage();
 	}
 }
+
+add_action('admin_menu','wf_events_add_attendees_menu');
+
+function wf_events_add_attendees_menu(){
+	add_menu_page('Attendees','Attendees',
+		'manage_options','wf-attendees','wf_action_attendees',
+		'dashicons-groups');
+
+	add_submenu_page('','Create Attendee','New Attendee',
+		'manage_options','wf-create-attendee','wf_action_create_attendee');
+
+	add_submenu_page('','View Attendee','New Attendee',
+		'manage_options','wf-view-attendee','wf_action_view_attendee');
+
+}
+
+function wf_action_attendees(){
+	global $wpdb;
+	$sql = 'SELECT * from wp_attendees';
+	$persons = $wpdb->get_results($sql,ARRAY_A);
+	WfHtml::renderLayout('attendees',['persons'=>$persons]);
+}
+
+function wf_action_create_attendee(){
+	WfHtml::renderLayout('create-attendee');
+}
+
+function wf_action_view_attendee(){
+	echo $_GET['id'];
+}
+
