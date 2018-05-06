@@ -16,6 +16,7 @@ if ( ! defined( 'WPINC' ) ) {
 require_once __DIR__ . '/cmb2/init.php';
 
 require_once __DIR__ . '/helpers/WfHtml.php';
+require_once __DIR__ . '/helpers/WfModel.php';
 
 define('WF_EVENTS_PREFIX','_wf_events_');
 
@@ -457,7 +458,7 @@ add_action('admin_menu','wf_events_add_attendees_menu');
 function wf_events_add_attendees_menu(){
 	add_menu_page('Attendees','Attendees',
 		'manage_options','wf-attendees','wf_action_attendees',
-		'dashicons-groups');
+		'dashicons-groups',5);
 
 	add_submenu_page('','Create Attendee','New Attendee',
 		'manage_options','wf-create-attendee','wf_action_create_attendee');
@@ -468,17 +469,34 @@ function wf_events_add_attendees_menu(){
 }
 
 function wf_action_attendees(){
-	global $wpdb;
-	$sql = 'SELECT * from wp_attendees';
-	$persons = $wpdb->get_results($sql,ARRAY_A);
+	//global $wpdb;
+	//$sql = 'SELECT * from wp_attendees';
+	//$persons = $wpdb->get_results($sql,ARRAY_A);
+	$persons = new WfModel('wp_attendees');
+	$persons->findAll();
 	WfHtml::renderLayout('attendees',['persons'=>$persons]);
 }
 
 function wf_action_create_attendee(){
-	WfHtml::renderLayout('create-attendee');
+	$person = null;
+	$model = new WfModel('wp_attendees');
+	if(isset($_GET['id'])){
+		$person = $model->findByPk($_GET['id'],'attendee_id');
+	}
+	if(isset($_POST['submit'])){
+		$person['first_name'] = $_POST['first_name'];
+		$person['last_name'] = $_POST['last_name'];
+		$person['position'] = $_POST['position'];
+		$model->update($person,'attendee_id',$person['attendee_id']);
+		echo WfHtml::formMessage('Attendees updated');
+	}
+	WfHtml::renderLayout('create-attendee',['model'=>$person]);
 }
 
 function wf_action_view_attendee(){
-	echo $_GET['id'];
+	$person = new WfModel('wp_attendees');
+	$person->findByPk($_GET['id'],'attendee_id');
+	WfHtml::renderLayout('view-attendee',['model'=>$person->getData()]);
+
 }
 

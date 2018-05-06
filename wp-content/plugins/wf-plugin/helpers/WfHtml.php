@@ -118,4 +118,16 @@ class WfHtml {
 			admin_url('admin.php'));
 	}
 
+	static function registerScript($name, $path, $version){
+
+	}
+
+	static function registerStyle( $name, $path, $version){
+		wp_enqueue_style($name,$path,array(),$version);
+	}
+
+	static function createPluginUrl(){
+		
+	}
+
 }
