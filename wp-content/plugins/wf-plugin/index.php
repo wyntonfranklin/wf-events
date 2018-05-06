@@ -17,6 +17,7 @@ require_once __DIR__ . '/cmb2/init.php';
 
 require_once __DIR__ . '/helpers/WfHtml.php';
 require_once __DIR__ . '/helpers/WfModel.php';
+require_once __DIR__ . '/helpers/WfPager.php';
 
 define('WF_EVENTS_PREFIX','_wf_events_');
 
@@ -473,7 +474,7 @@ function wf_action_attendees(){
 	//$sql = 'SELECT * from wp_attendees';
 	//$persons = $wpdb->get_results($sql,ARRAY_A);
 	$persons = new WfModel('wp_attendees');
-	$persons->findAll();
+	$persons = $persons->search();
 	WfHtml::renderLayout('attendees',['persons'=>$persons]);
 }
 

@@ -12,6 +12,9 @@ class WfModel {
 	private $_table;
 	private $_data;
 
+	public $limit = 5;
+	public $offset =0;
+
 	public function __construct($table_name='') {
 
 		global $wpdb;
@@ -31,6 +34,25 @@ class WfModel {
 		$results = $this->db()->get_results($sql,ARRAY_A);
 		$this->setData( $results );
 		return $this->getData();
+	}
+
+	public function search(){
+		$this->update_query_params();
+		$sql = 'SELECT * from '.$this->table(). ' LIMIT '.$this->limit. ' OFFSET '.$this->offset;
+		$countSql =  'SELECT count(*) FROM '.$this->table();
+		$results = $this->db()->get_results($sql,ARRAY_A);
+		$count = $this->db()->get_var($countSql);
+		return [
+			'data' => $results,
+			'total' => $count,
+			'limit' => $this->limit
+		];
+	}
+
+	public function update_query_params(){
+		if(isset($_GET['paged'])){
+			$this->offset = $this->limit * $_GET['paged'];
+		}
 	}
 
 	public function update( $values, $key, $value ){
