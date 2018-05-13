@@ -29,7 +29,9 @@ wp-config-sample.php
 wp-content/index.php
 wp-content/plugins/akismet/
 wp-content/plugins/index.php
-wp-content/themes/
+wp-content/themes/twentyfifteen
+wp-content/themes/twentysixteen
+wp-content/themes/twentyseventeen
 wp-cron.php
 wp-includes/
 wp-links-opml.php
