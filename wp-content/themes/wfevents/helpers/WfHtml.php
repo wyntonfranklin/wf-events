@@ -134,4 +134,8 @@ class WfHtml {
 		
 	}
 
+	static function limit_text(){
+
+	}
+
 }

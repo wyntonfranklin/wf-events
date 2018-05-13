@@ -7,8 +7,6 @@
  */
 ?>
 
-<?php /* Template Name: Single Page No Tabs */ ?>
-
 <?php get_header('single');?>
 
 <div class="row">
