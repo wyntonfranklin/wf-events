@@ -16,3 +16,5 @@
 	<!-- /.container -->
 </footer>
 
+<script src="<?php bloginfo('template_directory');?>/js/jquery.min.js"></script>
+<script src="<?php bloginfo('template_directory');?>/js/bootstrap.bundle.min.js"></script>

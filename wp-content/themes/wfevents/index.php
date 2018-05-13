@@ -12,9 +12,11 @@
 	<div class="row">
 
 		<!-- Blog Entries Column -->
-		<div class="col-md-8">
-			<?php get_sidebar();?>
-		</div>
+		<?php get_template_part( 'content', 'page' ); ?>
+
+		<?php get_sidebar();?>
+
+	</div>
 	<!-- /.row -->
 
 </div>

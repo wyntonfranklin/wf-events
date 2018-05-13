@@ -15,6 +15,12 @@ function load_scripts(){
 }
 add_action('wp_enqueue_scripts', 'load_scripts');
 
+add_action( 'after_setup_theme', 'wf_events_theme_setup' );
+
+function wf_events_theme_setup() {
+	add_theme_support( 'post-thumbnails');
+}
+
 
 function wf_events_create_tabs_post_type(){
 	register_post_type( 'wf_events_tabs',
@@ -104,3 +110,12 @@ function wf_bootstrap_top_menu( $menu_name='sample'){
 	}
 	echo $menu_list;
 }
+
+function wf_events_layout_shortcode( $atts = [], $content = null, $tag = '' ){
+	$a = shortcode_atts( array(
+		'name' => 'dashboard',
+	), $atts );
+	WfHtml::renderLayout($a['name']);
+}
+
+add_shortcode( 'wf-layout','wf_events_layout_shortcode');
