@@ -12,7 +12,7 @@ Author URI: http://www.ict.co.tt
 if ( ! defined( 'WPINC' ) ) {
     die;
 }
-
+/*
 require_once __DIR__ . '/cmb2/init.php';
 
 require_once __DIR__ . '/helpers/WfHtml.php';
@@ -501,3 +501,4 @@ function wf_action_view_attendee(){
 
 }
 
+*/

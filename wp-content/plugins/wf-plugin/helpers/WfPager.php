@@ -8,19 +8,77 @@
 
 class WfPager {
 
+	private $limit = 0;
+	private $count = 0;
+	private $page = 0;
+
+	function __construct() {
+
+	}
+
 	static function pagination_links( $tableData ){
+		$limit = $tableData['limit'];
+		$count = $tableData['total'];
+		$page = $tableData['page'];
+		$currentUrl =  self::getCurrentUrl( $page );
+		$nextUrl =  self::getNextUrl( $page );
+		$prevUrl = self::getPreviousUrl( $page );
 		$o = '';
 		$o .= self::startPager();
 		$o .= self::showTableSummary( $tableData['total']);
 		$o .= self::startLinks();
 		$o .= self::backward_link();
-		$o .= self::back_link();
+		$o .= self::back_link( $prevUrl );
 		$o .= self::current_page();
 		$o .= self::table_summary( $tableData );
-		$o .= self::next_link();
+		$o .= self::next_link($nextUrl);
 		$o .= self::forward_link();
 		$o .= '</span></div>';
 		return $o;
+	}
+
+	static function getMinUrl(){
+
+	}
+
+	static function getMaxUrl(){
+
+	}
+
+	static function getCurrentUrl( $page ){
+		if(isset($page)){
+			return add_query_arg(array('paged'=>$page));
+		}else{
+			return  add_query_arg(array());
+		}
+	}
+
+	static function getNextUrl( $page ){
+		if(isset($page)){
+			$page = $page+1;
+			return add_query_arg(array('paged'=>$page));
+		}else{
+			$page =1;
+			return  add_query_arg(array('paged'=>$page));
+		}
+	}
+
+	static function getPreviousUrl( $page ){
+		if(isset($page)){
+			$page = $page-1;
+			if( $page==0 ){
+				return null;
+			}else{
+				return add_query_arg(array('paged'=>$page));
+			}
+		}else{
+			$page =1;
+			return  add_query_arg(array('paged'=>$page));
+		}
+	}
+
+	static function loadAttributes(){
+
 	}
 
 	private static function startPager(){
@@ -39,8 +97,12 @@ class WfPager {
 		return '<span class="tablenav-pages-navspan" aria-hidden="true">«</span>';
 	}
 
-	private static function back_link(){
-		return '<span class="tablenav-pages-navspan" aria-hidden="true">‹</span>';
+	private static function back_link( $url ){
+		if( isset( $url ) ){
+			return '<a class="prev-page" href="'.$url.'"><span class="tablenav-pages-navspan" aria-hidden="true">‹</span></a>';
+		}else{
+			return '<span class="tablenav-pages-navspan" aria-hidden="true">‹</span>';
+		}
 	}
 
 	private static function current_page(){
@@ -48,25 +110,33 @@ class WfPager {
 	}
 
 	private static function table_summary( $data ){
+		$page = $data['page'];
+		if( empty($page)){
+			$page = 1;
+		}
 		$o = '<span id="table-paging" class="paging-input">';
-		$o .= '<span class="tablenav-paging-text">1 of <span class="total-pages">';
+		$o .= '<span class="tablenav-paging-text">'.$page.' of <span class="total-pages">';
 		$o .=  self::getCeil( $data );
 		$o .= '</span></span></span>';
 		return $o;
 	}
 
-	private static function next_link(){
-		$currentUrl = add_query_arg(array('paged'=>''));
-		return '<a class="next-page" href="'.$currentUrl.'">
+	private static function next_link( $url ){
+		if( isset($url)){
+			return '<a class="next-page" href="'.$url.'">
                     <span class="screen-reader-text">Next page</span>
                     <span aria-hidden="true">›</span>
                 </a>';
+		}else{
+			return '<span class="screen-reader-text">Next page</span>
+                    <span aria-hidden="true">›</span>';
+		}
 	}
 
 	private static function forward_link(){
 		return ' <a href="#">
- 			<span class="tablenav-pages-navspan" aria-hidden="true">»</span>
-</a>';
+ 				<span class="tablenav-pages-navspan" aria-hidden="true">»</span>
+			</a>';
 	}
 
 	private static function getCeil( $data ){

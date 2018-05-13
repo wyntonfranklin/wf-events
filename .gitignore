@@ -40,6 +40,8 @@ wp-settings.php
 wp-signup.php
 wp-trackback.php
 xmlrpc.php
-!/wp-content/plugins/wf-plugin/*
+!wp-content/plugins/wf-plugin/*
 !wp-content/plugins/wf-plugin/assets/
 !wp-content/plugins/wf-plugin/public/
+
+!/wp-content/themes/wfevents/

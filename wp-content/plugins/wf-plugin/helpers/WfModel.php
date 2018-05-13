@@ -45,7 +45,8 @@ class WfModel {
 		return [
 			'data' => $results,
 			'total' => $count,
-			'limit' => $this->limit
+			'limit' => $this->limit,
+			'page' => isset($_GET['paged']) ? $_GET['paged'] : null
 		];
 	}
 

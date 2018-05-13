@@ -17,6 +17,10 @@ class WfHtml {
 		return '<input type="text" name="'.$attribute.'" value="'.$value.'">';
 	}
 
+	static function check_box(){
+		return '<input id="checkBox" type="checkbox">';
+	}
+
 	static function submitButton(){
 		return '<p class="submit">
 			<input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes"></p>';

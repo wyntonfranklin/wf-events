@@ -13,6 +13,7 @@
         <table class="wp-list-table widefat fixed">
             <thead>
             <tr>
+                <td width="30px;"><?php echo WfHtml::check_box();?></td>
                 <td>Attendee Id</td>
                 <td>First Name</td>
                 <td>Last Name</td>
@@ -22,6 +23,7 @@
             </thead>
 		    <?php foreach( $persons['data'] as $person):?>
                 <tr>
+                    <td width="30px; margin-left:3px;"><?php echo WfHtml::check_box();?></td>
                     <td><?php echo $person['attendee_id'];?></td>
                     <td><?php echo $person['first_name'];?></td>
                     <td><?php echo $person['last_name']?></td>
@@ -38,7 +40,7 @@
         <div class="tablenav-pages">
             <span class="displaying-num"><?php echo $persons['total'];?> items</span>
             <span class="pagination-links">
-                <span class="tablenav-pages-navspan" aria-hidden="true">«</span>
+                <a href="#"><span class="tablenav-pages-navspan" aria-hidden="true">«</span></a>
                 <span class="tablenav-pages-navspan" aria-hidden="true">‹</span>
                 <span class="screen-reader-text">Current Page</span>
                 <span id="table-paging" class="paging-input">
