@@ -11,6 +11,7 @@ require_once __DIR__ . '/helpers/WfModel.php';
 require_once __DIR__ . '/helpers/WfWidget.php';
 require_once __DIR__ . '/includes/WfMenuWidget.php';
 require_once __DIR__.'/includes/widgets.php';
+require_once __DIR__.'/includes/Pagination.php';
 
 
 add_action( 'init', 'redirect_non_logged_users_to_specific_page' );

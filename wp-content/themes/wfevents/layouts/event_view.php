@@ -22,18 +22,23 @@ if( isset($_GET['id'])){
         Event Details
     </div>
     <div class="card-body">
-        <h5 class="card-title"><?php echo $event['event_title'];?></h5>
-        <div class="card-text">
-            <p>Date: <?php echo $event['start_date'];?></p>
-            <p>Time: <?php echo $event['start_time'];?></p>
+        <div class="float-left" style="width: 100px; margin-right: 10px;">
+            <img src="<?php echo $event['event_logo_file_name'];?>" class="img-thumbnail">
         </div>
-        <div class="card-text mb-4">
-            <?php echo $event['description'];?>
+        <div class="float-left">
+            <h5 class="card-title"><?php echo $event['event_title'];?></h5>
+            <div class="card-text">
+                <p>Date: <?php echo $event['start_date'];?></p>
+                <p>Time: <?php echo $event['start_time'];?></p>
+            </div>
+            <div class="card-text mb-4">
+		        <?php echo $event['description'];?>
+            </div>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                Register for Event
+            </button>
+            <a href="#" class="btn btn-dark">Attendees</a>
         </div>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-            Register for Event
-        </button>
-        <a href="#" class="btn btn-dark">Attendees</a>
     </div>
 </div>
 

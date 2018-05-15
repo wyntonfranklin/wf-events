@@ -17,6 +17,9 @@ $events = $events->search();
 	</div>
 </div>
 
+<div class="alert alert-primary" role="alert">
+    A simple primary alert—check it out!
+</div>
 
 <div class="card">
 	<h5 class="card-header">New Events</h5>

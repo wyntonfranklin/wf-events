@@ -46,13 +46,13 @@ class WfModel {
 			'data' => $results,
 			'total' => $count,
 			'limit' => $this->limit,
-			'page' => isset($_GET['paged']) ? $_GET['paged'] : null
+			'page' => isset($_GET['pg']) ? ((int) $_GET['pg']) : 1
 		];
 	}
 
 	public function update_query_params(){
-		if(isset($_GET['paged'])){
-			$this->offset = $this->limit * $_GET['paged'];
+		if(isset($_GET['pg'])){
+			$this->offset = $this->limit * $_GET['pg'];
 		}
 	}
 

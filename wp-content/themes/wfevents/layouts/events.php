@@ -5,30 +5,56 @@
  * Date: 5/13/2018
  * Time: 1:30 AM
  */
+$events = new WfModel('wp_events');
+$events->limit = 10;
+$events = $events->search();
 ?>
 
+<?php foreach( $events['data'] as $event):?>
+
 <div class="media mb-4">
-	<img class="mr-3" src="" alt="image">
+	<img class="img-thumbnail" style="width: 100px; margin-right: 5px;" src="<?php echo $event['event_logo_file_name'];?>" alt="image">
 	<div class="media-body">
-		<h5 class="mt-0">Media heading</h5>
-		Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+		<h5 class="mt-0">
+            <a href="<?php echo add_query_arg( 'id', $event['event_id'],'view-event' );?>" >
+                <?php echo $event['event_title'];?></a>
+        </h5>
+        <div class="">
+            <p>Time : 400 - 12 pm</p>
+            <p>Date: Thrusday 2124 March, 2018</p>
+        </div>
+        <div>
+            <?php echo $event['description'];?>
+        </div>
 		<div style="margin-top: 5px;">
-			<button class="btn btn-primary">View</button>
-			<button class="btn btn-danger">Delete</button>
+
 		</div>
 	</div>
 </div>
 
 <hr>
 
-<div class="media mb-4">
-	<img class="mr-3" src="" alt="image">
-	<div class="media-body">
-		<h5 class="mt-0">Media heading</h5>
-		Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-		<div style="margin-top: 5px;">
-			<button class="btn btn-primary">View</button>
-			<button class="btn btn-danger">Delete</button>
-		</div>
-	</div>
+<?php endforeach;?>
+<nav aria-label="Page navigation example" class="align-content-center">
+<?php
+    $currentPage = isset($_GET['pg']) ? ((int) $_GET['pg']) : 1;
+    $page = new Pagination($currentPage, $events['total']);
+    echo $page->parse();
+?>
+</nav>
+<div class="pagination justify-content-center mb-4">
+    <nav aria-label="Page navigation example" class="align-content-center">
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">4</a></li>
+            <li class="page-item"><a class="page-link" href="#">5</a></li>
+            <li class="page-item"><a class="page-link" href="#">6</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        </ul>
+    </nav>
 </div>
+
+
